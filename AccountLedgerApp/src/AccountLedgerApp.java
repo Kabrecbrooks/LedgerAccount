@@ -43,6 +43,10 @@ public class AccountLedgerApp {
                 case "A":
                     Transactions newDeposit = addDeposit();
                     writeToFile(transactionFileName, newDeposit);
+                case "B":
+                    Transactions newPayment = makePayment();
+                    writeToFile(transactionFileName,newPayment);
+                    break;
                 case "D":
                     runningHomeProgram = false; // this is to get the program to stop running
                     break;
@@ -54,7 +58,7 @@ public class AccountLedgerApp {
 
     public static Transactions addDeposit() {
 
-        // these will primitives after users inputs
+        // primitives after users inputs
         LocalDate ld = LocalDate.now();
         LocalTime lt = LocalTime.now();
         System.out.println(" Provide deposit amount ");
@@ -88,12 +92,12 @@ public class AccountLedgerApp {
     }
 
     // My payment screen
-    public static Transactions namePayment() {
+    public static Transactions makePayment() {
         LocalDate ld = LocalDate.now();
         LocalTime lt = LocalTime.now();
 
         System.out.println("Please enter the payment amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = Double.parseDouble((scanner.nextLine()))* -1;
 
         System.out.println("Please enter the vendor name: ");
         String vendor = scanner.nextLine().trim();
@@ -101,10 +105,48 @@ public class AccountLedgerApp {
         System.out.println("Please provide a description: ");
         String description = scanner.nextLine().trim();
 
-        System.out.println("Your information has been deposited! ");
-        String transactionId = "P";
+        System.out.println("Deposit is complete! ");
+        String transactionId = "B";
 
         return new Transactions(ld, lt, description, transactionId, vendor, amount);
     }
+    // Creating my ledger menu with methods
+    public static void ledgerMenu() {
+
+        System.out.println("\n ** Ledger main menu ** \n");
+        // ledger screen will continue to run until the user decides to exit
+        boolean ledgerRunning = true;
+
+        // loop to repeat code until condition is met
+        while (ledgerRunning) {
+        // give the user options to pick for show deposits and show all payments
+            System.out.println(""" 
+                     \n ** select from following options:  **\n
+                    A. Display all entries
+                    B. Deposits
+                    C. Payments
+                    D. Reports
+                    E. Home
+                    """);
+        // this is how the user will make their selection
+        String userInputLedger = scanner.nextLine().trim().toUpperCase();
+
+        // allow usr to make a choice by creating switch statement
+        switch (userInputLedger) {
+            case "A":
+                List<Transactions> transactions = getTransactionsFromFile(transactionFileName);
+                displayTransactions(transactions);
+                break;
+            case "B":
+                ledgerRunning = false;
+
+
+        }
+        }
+
+    }
 }
+
+
+
 
