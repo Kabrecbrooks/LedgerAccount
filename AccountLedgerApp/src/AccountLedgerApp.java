@@ -1,8 +1,11 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +19,7 @@ public class AccountLedgerApp {
 
         //Home screen
         homeMenu();
+        ledgerMenu();
 
 
     }
@@ -46,6 +50,9 @@ public class AccountLedgerApp {
                 case "B":
                     Transactions newPayment = makePayment();
                     writeToFile(transactionFileName,newPayment);
+                    break;
+                case "C":
+                    ledgerMenu();
                     break;
                 case "D":
                     runningHomeProgram = false; // this is to get the program to stop running
@@ -134,16 +141,38 @@ public class AccountLedgerApp {
         // allow usr to make a choice by creating switch statement
         switch (userInputLedger) {
             case "A":
-                List<Transactions> transactions = getTransactionsFromFile(transactionFileName);
-                displayTransactions(transactions);
+                List<Transactions> transactions = getTransactionFromFile(transactionFileName);
+                displayTransaction(transactions);
                 break;
             case "B":
                 ledgerRunning = false;
+                break;
+
 
 
         }
         }
 
+    }
+    public static List<Transactions> getTransactionFromFile(String fileName){
+        List<Transactions> transactions = new ArrayList<>();
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName))){
+            String line;
+            while((line = br.readLine())!= null){
+                String[] arrTransaction = line.split("\\|");
+                Transactions transaction = new Transactions(LocalDate.parse(arrTransaction[0]),LocalTime.parse(arrTransaction[1]),arrTransaction[2],arrTransaction[3],arrTransaction[4],Double.parseDouble(arrTransaction[5]));
+                transactions.add(transaction);
+
+            }
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+        return transactions;
+    }
+    public static void displayTransaction(List<Transactions>transactions){
+        for(Transactions transaction: transactions){
+            System.out.printf("%s | %s | %s | %s | %s | %.2f%n", transaction.getDate().format(dateFormatter), transaction.getTime().format(timeFormatter), transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+        }
     }
 }
 

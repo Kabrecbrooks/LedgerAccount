@@ -12,7 +12,7 @@ public class Transactions {
 
 
     // adding all variables to constructor and add in all variables
-    public Transactions (LocalDate date, LocalTime time, String description, String transactionId, String vendor, double amount){
+    public Transactions (LocalDate date, LocalTime time, String description, String vendor, String transactionId, double amount){
         this.date = date;
         this.time = time;
         this.description = description;
