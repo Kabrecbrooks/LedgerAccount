@@ -383,8 +383,6 @@ public class AccountLedgerApp {
         }
         //Return the list of filtered transactions
         return prevMonth;
-
-
     }
 
 

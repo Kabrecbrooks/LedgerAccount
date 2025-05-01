@@ -16,7 +16,27 @@ A simple Java-based command-line application that allows users to track financia
   - Year to Date
   - Previous Year
   - Search by Vendor
+## Favorite piece of code
+```java
+    public static List<Transactions> prevMonth(String fileName){
+        List<Transactions> transactions = getTransactionFromFile(fileName);
+        List<Transactions> prevMonth = new ArrayList<>();
 
+        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime firstDayOfMonth = currentDate.withDayOfMonth(1).minusMonths(1);
+        LocalDateTime lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.getMonth().length(LocalDate.of(firstDayOfMonth.getYear(),1,1).isLeapYear()));
+
+        for (Transactions transaction : transactions){
+            LocalDateTime prevMonthDT = transaction.getDateTime();
+            if((prevMonthDT.isEqual(firstDayOfMonth) || prevMonthDT.isAfter(firstDayOfMonth)) &&
+            (prevMonthDT.isEqual(lastDayOfMonth) || prevMonthDT.isBefore(lastDayOfMonth))){
+
+                prevMonth.add(transaction);
+            }
+        }
+        return prevMonth;
+    }
+```
 
 ## 📂 Project Structure
 
