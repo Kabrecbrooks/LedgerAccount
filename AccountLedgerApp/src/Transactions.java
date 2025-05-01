@@ -3,18 +3,20 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Transactions {
-    // variables for transaction class
-    LocalDate date;
-    LocalTime time;
-    String description;
-    String transactionId;
-    String vendor;
-    double amount;
-    LocalDateTime dateTime;
+
+    // variables to store transaction details
+    LocalDate date; //stores the date of transaction
+    LocalTime time; //stores the time
+    String description; //description of transaction
+    String transactionId; // differentiate deposit or payment
+    String vendor; //vendor or company
+    double amount; //the amount of money
+    LocalDateTime dateTime; //combines date and time for easy comparison
 
 
-    // adding all variables to constructor and add in all variables
+    // Constructor to initialize all variables when a transaction is created
     public Transactions (LocalDate date, LocalTime time, String description, String vendor, String transactionId, double amount){
+        //Combines date and time into a single object for more convenient date-based operations
         this.dateTime = LocalDateTime.of(date,time);
         this.date = date;
         this.time = time;
@@ -24,16 +26,16 @@ public class Transactions {
         this.amount = amount;
 
     }
-    // too string() to create the list
+    // toString() method formats the transaction details as a string so they can be saved or displayed
 
     @Override
     public String toString() {
+        //Uses custom formatters from the main app to keep the format consistent
         return date.format(AccountLedgerApp.dateFormatter) + "|" + time.format(AccountLedgerApp.timeFormatter) + "|" + description + "|" + vendor + "|" + transactionId + "|" + amount;
     }
 
 
-    // creating my getters and setters
-
+    // Getter and setter methods below are used to safely access and update each variable from other classes
 
     public LocalDateTime getDateTime() {
         return dateTime;
