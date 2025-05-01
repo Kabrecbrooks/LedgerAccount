@@ -215,7 +215,7 @@ public class AccountLedgerApp {
         return matchingTransById;
 
     }
-
+// Stan helped with the camarartor.comparing
     public static void reportMenu() {
         boolean reportMenuRunning = true;
         while(reportMenuRunning){
@@ -271,7 +271,7 @@ public class AccountLedgerApp {
         String userVendorsName = scanner.nextLine();
 
         for (Transactions transaction : transactions) {
-            if (transaction.getVendor().equals(userVendorsName)) {
+            if (transaction.getVendor().equalsIgnoreCase(userVendorsName)) {
                 matchingVendors.add(transaction);
             }
         }
@@ -295,7 +295,7 @@ public class AccountLedgerApp {
         }
         return yearToDate;
     }
-
+// Stan helped with the id statement
     public static List<Transactions> monthToDate(String fileName) {
         List<Transactions> transactions = getTransactionFromFile(fileName);
         List<Transactions> monthToDate = new ArrayList<>();
