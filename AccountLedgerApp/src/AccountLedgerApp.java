@@ -360,9 +360,8 @@ public class AccountLedgerApp {
 
         }
         return monthToDate;
-
-
     }
+
     public static List<Transactions> prevMonth(String fileName){
         List<Transactions> transactions = getTransactionFromFile(fileName);
         List<Transactions> prevMonth = new ArrayList<>();
@@ -387,6 +386,8 @@ public class AccountLedgerApp {
 
 
     }
+
+
     public static List<Transactions> prevYear (String fileName){
         List<Transactions> transactions = getTransactionFromFile(fileName);
         List<Transactions> prevYear = new ArrayList<>();
