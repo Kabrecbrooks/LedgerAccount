@@ -63,7 +63,6 @@ public class AccountLedgerApp {
                     //this is to get the program to stop running
                     runningHomeProgram = false;
                     break;
-
             }
 
         }
@@ -183,8 +182,6 @@ public class AccountLedgerApp {
                     // Set the boolean to false and exit the loop and go back to the home screen
                     ledgerRunning = false;
                     break;
-
-
             }
         }
 
@@ -245,7 +242,6 @@ public class AccountLedgerApp {
         }
         // Return the list of matching transactions
         return matchingTransById;
-
     }
 
     public static void reportMenu() {
@@ -269,6 +265,9 @@ public class AccountLedgerApp {
                 case 1:
                     // Call method to get all transactions from this month up to today
                     List<Transactions> monthToDateTransactions = monthToDate(transactionFileName);
+                    //Easy to understand compared to writing a full custom comparator.
+                    //compares each transaction by the value returned from getDateTime()
+                    //no need for loops or manual sorting logic
                     monthToDateTransactions.sort(Comparator.comparing(Transactions::getDateTime).reversed());
                     displayTransaction(monthToDateTransactions);
                     break;
@@ -327,7 +326,7 @@ public class AccountLedgerApp {
 
         LocalDateTime todayDate = LocalDateTime.now();
         //Set the date to the first day of the current year (January 1st)
-        LocalDateTime firstDayOfYear = todayDate.withDayOfYear(1);
+        LocalDateTime firstDayOfYear = todayDate.withDayOfYear(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
         //Loop through each transaction
         for (Transactions transaction : transactions) {
             LocalDateTime dateTime = transaction.getDateTime();
@@ -357,7 +356,6 @@ public class AccountLedgerApp {
                 //If yes, add it to the monthToDate list
                 monthToDate.add(transaction);
             }
-
         }
         return monthToDate;
     }
@@ -368,7 +366,7 @@ public class AccountLedgerApp {
 
         LocalDateTime currentDate = LocalDateTime.now();
         //Calculate the first day of the previous month
-        LocalDateTime firstDayOfMonth = currentDate.withDayOfMonth(1).minusMonths(1);
+        LocalDateTime firstDayOfMonth = currentDate.withDayOfMonth(1).minusMonths(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
         //Calculate the last day of the previous month
         //This checks if the previous year was a leap year and gets the correct number of days for the month// Stan helped
         LocalDateTime lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.getMonth().length(LocalDate.of(firstDayOfMonth.getYear(),1,1).isLeapYear()));
@@ -385,14 +383,13 @@ public class AccountLedgerApp {
         return prevMonth;
     }
 
-
     public static List<Transactions> prevYear (String fileName){
         List<Transactions> transactions = getTransactionFromFile(fileName);
         List<Transactions> prevYear = new ArrayList<>();
 
         LocalDateTime currentDate = LocalDateTime.now();
         //Find the first day of the previous year
-        LocalDateTime firstDayOfYear = currentDate.minusYears(1).withDayOfYear(1);
+        LocalDateTime firstDayOfYear = currentDate.minusYears(1).withDayOfYear(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
         //Define the last day of that previous year (set to December 31st, 23:59:59)
         LocalDateTime lastDayOfYear = LocalDateTime.of(firstDayOfYear.getYear(),12, 31, 23, 59, 59);
 
@@ -407,10 +404,6 @@ public class AccountLedgerApp {
                 }
                 //return filtered list
                 return prevYear;
-
-
-
-
     }
 
 }
